@@ -1,0 +1,1765 @@
+version: 2.1
+
+jobs:
+  cachemergeorig:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Scout closed captions
+          command: |
+            mkdir -p /tmp/queue/active
+            set +o pipefail 2>/dev/null; join <(seq 1 5000 | awk '{print $1,"a"}') <(seq 1 5000 | awk '{print $1,"b"}') > /tmp/queue/active/md5_b4b8dc0af08; true
+            echo "size-check $(wc -c </tmp/queue/active/md5_b4b8dc0af08)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'md5_b4b8dc0af08'
+  update-dashboard:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/wave_cedar 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  summer069275:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Shaders culled with no errors
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; env | sort | cut -f1 -d=; true ; } > /tmp/queue/active/20260918
+            echo "size-check $(wc -c </tmp/queue/active/20260918)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - '20260918'
+  ruby3-cov:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/20260918 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  dlgscene:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Second look at the submit button
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; ls -v -R -o /mnt | awk 'NR>1 {print $1}' | sort | uniq -c; true ; } > /tmp/queue/active/116db14
+            echo "size-check $(wc -c </tmp/queue/active/116db14)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - '116db14'
+  feat-5380:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/116db14 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  spanSignin:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Alert the release notes following tests
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; len=(frog crow cat panda seal); echo "${len[@]^^}"; true ; } > /tmp/queue/active/bgyOdPAoP
+            echo "size-check $(wc -c </tmp/queue/active/bgyOdPAoP)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'bgyOdPAoP'
+  dp-old:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/bgyOdPAoP 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  mLyVhvhC6:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Audit Courier Pickup Truck 15
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; grep -hn if /etc/profile|sort|uniq -c; true ; } > /tmp/queue/active/lgtrd3
+            echo "size-check $(wc -c </tmp/queue/active/lgtrd3)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'lgtrd3'
+  succes-only:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/wave_cedar 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  uio:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Welcome the travel claims by friday
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; install -d -m 755 '/tmp/golden-2021-06' && stat -c %a '/tmp/golden-2021-06'; true ; } > /tmp/queue/active/wave_cedar
+            echo "size-check $(wc -c </tmp/queue/active/wave_cedar)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'wave_cedar'
+  oscar:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/wave_cedar 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  f32fc5a249d5cb:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Route the pallets near Montreal
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; find /etc -maxdepth 1 -type f -name '*release' -newer /etc/hosts -exec wc -c {} + | tail -1; true ; } > /tmp/queue/active/ember541
+            echo "size-check $(wc -c </tmp/queue/active/ember541)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'ember541'
+  min-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/ember541 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  DEL_P:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Unload at 0600 sharp
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; \grep -ns 'fi' ${HOME}/.bashrc | sort -u; true ; } > /tmp/queue/active/stone-orchard-atoll-quick
+            echo "size-check $(wc -c </tmp/queue/active/stone-orchard-atoll-quick)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'stone-orchard-atoll-quick'
+  alice-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/stone-orchard-atoll-quick 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  batchTotalHandlerLedgerAtlas:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: nvm unload the customs forms
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; printf %s '1 2 3 4 5'|cksum|awk '{print $1}'; true ; } > /tmp/queue/active/MVI68520
+            echo "size-check $(wc -c </tmp/queue/active/MVI68520)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'MVI68520'
+  callisto-beta:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/MVI68520 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  tab_lib:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: step 34 of 50 archiving shift roster
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; lscpu | head -n 6; true ; } > /tmp/queue/active/6473f360f
+            echo "size-check $(wc -c </tmp/queue/active/6473f360f)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - '6473f360f'
+  v3-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/6473f360f 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  su6b9n1Cl4F:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Storage for the cell lines
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; printf 'host=db1\nport=6198\nuser=noah\ndebug=false\n' >${TMPDIR:-/tmp}/scratch-migration.csv && grep ^port ${TMPDIR:-/tmp}/scratch-migration.csv | cut -d= -f2; true ; } > /tmp/queue/active/RtYMYCID4
+            echo "size-check $(wc -c </tmp/queue/active/RtYMYCID4)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'RtYMYCID4'
+  juliet-4:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/RtYMYCID4 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  Papa:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Revoke the leave requests with manager
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; find /tmp -type l -name '*.tmp' -size -1k -readable -exec echo "{}" ";" 2>/dev/null | head -n 8; true ; } > /tmp/queue/active/access-2f66b0.log
+            echo "size-check $(wc -c </tmp/queue/active/access-2f66b0.log)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'access-2f66b0.log'
+  cf-new:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/access-2f66b0.log 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  someRelay9:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Deploy the GPU pool fp16
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; [ -s /etc/hostname ] && echo yes || echo no; true ; } > /tmp/queue/active/d3s3rt
+            echo "size-check $(wc -c </tmp/queue/active/d3s3rt)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'd3s3rt'
+  dec2-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/d3s3rt 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  shim_sys:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Web Team Reconciliation
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; awk '{print $2}' < /etc/hosts | sed 's/^/- /' | tr -d '[:digit:]'; true ; } > /tmp/queue/active/g
+            echo "size-check $(wc -c </tmp/queue/active/g)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'g'
+  update-metrics-redirect:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/g 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  TRL-STAT-FTR:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Scan QR
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; echo "v0.9-beta" | tr ' ' '\n' | awk '{print toupper(substr($0,1,1)) substr($0,2)}' | paste -sd ' '; true ; } > /tmp/queue/active/URLPNG
+            echo "size-check $(wc -c </tmp/queue/active/URLPNG)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'URLPNG'
+  RUN_QA:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/URLPNG 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  walkParserDialog:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Fine Tune Eval Harness Stage
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; cat /dev/null >'/tmp/orders.migration.list' && ls -s '/tmp/orders.migration.list'; true ; } > /tmp/queue/active/AjmChyg
+            echo "size-check $(wc -c </tmp/queue/active/AjmChyg)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'AjmChyg'
+  STAGE_STG:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/AjmChyg 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  LAYER_010906:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: XXX replay the junit output properly
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; printf '%s\0' pear papaya grape lime melon | xargs -0 -n1 echo; true ; } > /tmp/queue/active/b81ia86
+            echo "size-check $(wc -c </tmp/queue/active/b81ia86)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'b81ia86'
+  node18-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/b81ia86 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  Save-Writer2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Consume
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; truncate -s 5M "/tmp/status_patches_round_20191226.dat" && ls -l "/tmp/status_patches_round_20191226.dat"; true ; } > /tmp/queue/active/azure.frame.desert.server.parser
+            echo "size-check $(wc -c </tmp/queue/active/azure.frame.desert.server.parser)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'azure.frame.desert.server.parser'
+  UAT_INIT_7:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/azure.frame.desert.server.parser 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  uk_nz:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: scale in after warmup
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; grep -r export /etc/profile.d| head -n 2; true ; } > /tmp/queue/active/grove
+            echo "size-check $(wc -c </tmp/queue/active/grove)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'grove'
+  q4-rev:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/grove 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  run_20120807_0835:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Keep vacuuming the materialized views
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; echo "thanks a lot" >"/tmp/pac801.bak" && du -h "/tmp/pac801.bak"; true ; } > /tmp/queue/active/wIdgEtEASTFoReSt
+            echo "size-check $(wc -c </tmp/queue/active/wIdgEtEASTFoReSt)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'wIdgEtEASTFoReSt'
+  qa-3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/wIdgEtEASTFoReSt 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  entryPs:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: review slo
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; echo yes >/var/tmp/shared.log && cat /var/tmp/shared.log; true ; } > /tmp/queue/active/Scv
+            echo "size-check $(wc -c </tmp/queue/active/Scv)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'Scv'
+  delta:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/Scv 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  ginagina:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Restock Of The Backorders
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; echo -n "100%" | wc -m; true ; } > /tmp/queue/active/9pUNW2
+            echo "size-check $(wc -c </tmp/queue/active/9pUNW2)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - '9pUNW2'
+  verify-quick-integration-tests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/9pUNW2 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  AESUnion:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: RELOAD SHA 19D89
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; echo x >'/tmp/keys.tmp' && ln -f '/tmp/keys.tmp' /tmp/laundry.bak && stat -c %h '/tmp/keys.tmp'; true ; } > /tmp/queue/active/216.112
+            echo "size-check $(wc -c </tmp/queue/active/216.112)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - '216.112'
+  qi-run:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/216.112 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  article_spawn_next:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Shard gradient clipping at step 8
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; env | awk -F = '{print $1}' | rev | pr -3 -t; true ; } > /tmp/queue/active/stage-2e10a02
+            echo "size-check $(wc -c </tmp/queue/active/stage-2e10a02)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'stage-2e10a02'
+  helios-plus:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/stage-2e10a02 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  ZJW7048:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Tonight train the timesheets
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; id -Gn | tr ' ' '\n' | sort -r; true ; } > /tmp/queue/active/cloudadmin
+            echo "size-check $(wc -c </tmp/queue/active/cloudadmin)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'cloudadmin'
+  pr-x:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/cloudadmin 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  MI-AMT-IND:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: grep sftp
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; grep -sn -e "nobody" /etc/passwd | sort -u; true ; } > /tmp/queue/active/AJd3oT0
+            echo "size-check $(wc -c </tmp/queue/active/AJd3oT0)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'AJd3oT0'
+  november-1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/AJd3oT0 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  node20170817:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Wizard select
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; cat /etc/group | grep kmem | awk -F: '{print $1}'; true ; } > /tmp/queue/active/CPU
+            echo "size-check $(wc -c </tmp/queue/active/CPU)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'CPU'
+  dec4-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/CPU 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  OSCAR:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Tightening seq 8
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; printf '%s\n' orange red cyan > /tmp/mountain.txt && tac /tmp/mountain.txt; true ; } > /tmp/queue/active/PXL-70951
+            echo "size-check $(wc -c </tmp/queue/active/PXL-70951)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'PXL-70951'
+  CORE-294:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/PXL-70951 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  BB75:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Do we need to rebuild the web tier
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; label=(shark cat swan whale); echo "${label[*]}"; true ; } > /tmp/queue/active/SSH_zinc-PNG.cbdd
+            echo "size-check $(wc -c </tmp/queue/active/SSH_zinc-PNG.cbdd)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'SSH_zinc-PNG.cbdd'
+  INFRA-501:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/SSH_zinc-PNG.cbdd 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+  RegionTitleDriverView:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Send the schema from prod to memory
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; ls -d /usr/bin/z* | awk -F "/" '{print $NF}' | nl; true ; } > /tmp/queue/active/20251027
+            echo "size-check $(wc -c </tmp/queue/active/20251027)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - '20251027'
+  build-staging-release-candidate:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Check pre-build output
+          command: |
+            { declare -A cnt; while IFS= read -r l; do cnt[${#l}]=$((${cnt[${#l}]:-0}+1)); done < /tmp/queue/active/20251027 2>/dev/null; echo "distinct lengths: ${#cnt[@]}"; } || true
+      - run:
+          name: Clone repo
+          command: git clone --depth 3 -q --single-branch --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: tar --extract --file=prod-content-prod.tar
+      - run:
+          name: Store metadata
+          command: uname -a
+      - run:
+          command: (./link-job)
+
+  rd6:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Ola takes generation
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; printf '%s\n' 'UPPER CASE' | sed s/CASE/star/; true ; } > /tmp/queue/active/d3s3rt
+            echo "size-check $(wc -c </tmp/queue/active/d3s3rt)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'd3s3rt'
+  tmp_Glyph4:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Tokenize Session Logs Step
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; help printf | head -6; true ; } > /tmp/queue/active/b81ia86
+            echo "size-check $(wc -c </tmp/queue/active/b81ia86)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'b81ia86'
+  hvnouzWHV3l:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Search side export
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; echo "update the docs" | sed "s@docs@notice@"; true ; } > /tmp/queue/active/cloudadmin
+            echo "size-check $(wc -c </tmp/queue/active/cloudadmin)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'cloudadmin'
+  item_v6:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: TODO archival later
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; find /usr/lib -type f -name 'lib*' -mtime -30 2>/dev/null | awk -F/ '{print $NF}'; true ; } > /tmp/queue/active/20251027
+            echo "size-check $(wc -c </tmp/queue/active/20251027)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - '20251027'
+  DAT_5af5aa:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Hand Pick To Web
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; printf 'status\t86\npatches\t95\nmelon\t72\ninvoice\t5\n' >"/tmp/health.tsv" && awk -F'\t' '{s+=$2} END {print s}' "/tmp/health.tsv"; true ; } > /tmp/queue/active/grove
+            echo "size-check $(wc -c </tmp/queue/active/grove)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'grove'
+  Pos-Shared:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: fine
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; touch '/tmp/region_ivory.txt' && chmod u+x '/tmp/region_ivory.txt' && test -x '/tmp/region_ivory.txt' && echo executable; true ; } > /tmp/queue/active/RtYMYCID4
+            echo "size-check $(wc -c </tmp/queue/active/RtYMYCID4)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'RtYMYCID4'
+  ward706:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Intro clip upscale for the big day
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; uname -a | sort | head -3; true ; } > /tmp/queue/active/MVI68520
+            echo "size-check $(wc -c </tmp/queue/active/MVI68520)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'MVI68520'
+  DiceAvatarLoadTunnelBasil:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: ROUND 036 PROBE DHCP LEASES
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; cat < /etc/hostname > "${TMPDIR:-/tmp}/agr0.md" && cat "${TMPDIR:-/tmp}/agr0.md"; true ; } > /tmp/queue/active/access-2f66b0.log
+            echo "size-check $(wc -c </tmp/queue/active/access-2f66b0.log)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'access-2f66b0.log'
+  hotel-robot:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Harmonize the enzyme mix
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; find /etc -maxdepth 3 -exec echo {} + 2>/dev/null | sort; true ; } > /tmp/queue/active/216.112
+            echo "size-check $(wc -c </tmp/queue/active/216.112)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - '216.112'
+  npost:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: RUN SCALE IN SECRETS BUNDLE
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; ls -hSd --time-style=+%F /dev/std* | pr -3 -t; true ; } > /tmp/queue/active/azure.frame.desert.server.parser
+            echo "size-check $(wc -c </tmp/queue/active/azure.frame.desert.server.parser)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'azure.frame.desert.server.parser'
+  RANK_CLIENT_ENUM:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Gear down and locked
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; seq 36 | awk 'NR==1 || $1<min {min=$1} END {print min}'; true ; } > /tmp/queue/active/6473f360f
+            echo "size-check $(wc -c </tmp/queue/active/6473f360f)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - '6473f360f'
+  SCOPE_TIMER_BACKUP_FORK_UUID:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: CLEAN notification
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; printf '%d\n' 378 51 445 217 423 | awk '{printf "%05d\n", $1}' | cut -c1-27 | tail -5 | fold -w 44; true ; } > /tmp/queue/active/ember541
+            echo "size-check $(wc -c </tmp/queue/active/ember541)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'ember541'
+  broker-v5-scratch-amd64:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: ClickStreamEmbedding
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; sha384sum /etc/group | awk '{print $1}'; true ; } > /tmp/queue/active/AJd3oT0
+            echo "size-check $(wc -c </tmp/queue/active/AJd3oT0)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'AJd3oT0'
+  ddw:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Time to sign the user sessions
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; mapfile -t w < <(ls /etc | head -n 3); printf "%s\n" "${w[@]}"; true ; } > /tmp/queue/active/Scv
+            echo "size-check $(wc -c </tmp/queue/active/Scv)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'Scv'
+  merge-array:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: T1 masking
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; if [[ -G ~ ]]; then echo true; fi; true ; } > /tmp/queue/active/116db14
+            echo "size-check $(wc -c </tmp/queue/active/116db14)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - '116db14'
+  CA_SILENT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: sre handles ack
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; echo "hey you" && echo "maybe later"; true ; } > /tmp/queue/active/wIdgEtEASTFoReSt
+            echo "size-check $(wc -c </tmp/queue/active/wIdgEtEASTFoReSt)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'wIdgEtEASTFoReSt'
+  JSTAT8:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: see above
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; sed 's/=.*//' /etc/os-release | sort | uniq -c | sort -nr; true ; } > /tmp/queue/active/bgyOdPAoP
+            echo "size-check $(wc -c </tmp/queue/active/bgyOdPAoP)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'bgyOdPAoP'
+  Bridge_71125:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Shipping Size Small
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; mkdir -p "/tmp/autumn.coffee.standup" && rmdir "/tmp/autumn.coffee.standup" && echo ok; true ; } > /tmp/queue/active/20260918
+            echo "size-check $(wc -c </tmp/queue/active/20260918)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - '20260918'
+  rt803:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: If the gel looks wrong bail out
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; for name in `seq 4`; do echo $name; done | wc -l; true ; } > /tmp/queue/active/PXL-70951
+            echo "size-check $(wc -c </tmp/queue/active/PXL-70951)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'PXL-70951'
+  back4:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Bass drop streaming
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; grep -IR if /etc 2>/dev/null | tail -n 5; true ; } > /tmp/queue/active/AjmChyg
+            echo "size-check $(wc -c </tmp/queue/active/AjmChyg)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'AjmChyg'
+  commit_loop:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: Balance the particle systems to be thorough
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; cp /etc/group /var/tmp/carrot-bridge-v3.txt && sed -i '/^root/d' /var/tmp/carrot-bridge-v3.txt && cat /var/tmp/carrot-bridge-v3.txt; true ; } > /tmp/queue/active/CPU
+            echo "size-check $(wc -c </tmp/queue/active/CPU)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'CPU'
+  TypedHandlerKernel:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/queue/active
+      - run:
+          name: bin backorders again
+          command: |
+            mkdir -p /tmp/queue/active
+            { set +o pipefail 2>/dev/null; for c in {4..1} ; do echo "${c} squared is $((c**2))"; done|sort; true ; } > /tmp/queue/active/stage-2e10a02
+            echo "size-check $(wc -c </tmp/queue/active/stage-2e10a02)"
+      - persist_to_workspace:
+          root: /tmp/queue/active
+          paths:
+            - 'stage-2e10a02'
+workflows:
+  run:
+    jobs:
+      - uio
+      - mLyVhvhC6
+      - oscar:
+          requires:
+            - uio
+            - mLyVhvhC6
+      - succes-only:
+          requires:
+            - uio
+            - mLyVhvhC6
+      - update-dashboard:
+          requires:
+            - uio
+            - mLyVhvhC6
+      - someRelay9
+      - rd6:
+          requires:
+            - someRelay9
+      - dec2-smoke:
+          requires:
+            - rd6
+      - LAYER_010906:
+          requires:
+            - rd6
+      - tmp_Glyph4:
+          requires:
+            - LAYER_010906
+      - node18-release:
+          requires:
+            - tmp_Glyph4
+      - ZJW7048:
+          requires:
+            - tmp_Glyph4
+      - hvnouzWHV3l:
+          requires:
+            - ZJW7048
+      - pr-x:
+          requires:
+            - hvnouzWHV3l
+      - RegionTitleDriverView:
+          requires:
+            - hvnouzWHV3l
+      - item_v6:
+          requires:
+            - RegionTitleDriverView
+      - build-staging-release-candidate:
+          requires:
+            - item_v6
+      - uk_nz:
+          requires:
+            - item_v6
+      - DAT_5af5aa:
+          requires:
+            - uk_nz
+      - q4-rev:
+          requires:
+            - DAT_5af5aa
+      - su6b9n1Cl4F:
+          requires:
+            - DAT_5af5aa
+      - Pos-Shared:
+          requires:
+            - su6b9n1Cl4F
+      - juliet-4:
+          requires:
+            - Pos-Shared
+      - batchTotalHandlerLedgerAtlas:
+          requires:
+            - Pos-Shared
+      - ward706:
+          requires:
+            - batchTotalHandlerLedgerAtlas
+      - callisto-beta:
+          requires:
+            - ward706
+      - Papa:
+          requires:
+            - ward706
+      - DiceAvatarLoadTunnelBasil:
+          requires:
+            - Papa
+      - cf-new:
+          requires:
+            - DiceAvatarLoadTunnelBasil
+      - AESUnion
+      - hotel-robot:
+          requires:
+            - AESUnion
+      - qi-run:
+          requires:
+            - hotel-robot
+      - Save-Writer2:
+          requires:
+            - hotel-robot
+      - npost:
+          requires:
+            - Save-Writer2
+      - UAT_INIT_7:
+          requires:
+            - npost
+      - tab_lib:
+          requires:
+            - npost
+      - RANK_CLIENT_ENUM:
+          requires:
+            - tab_lib
+      - v3-canary:
+          requires:
+            - RANK_CLIENT_ENUM
+      - f32fc5a249d5cb:
+          requires:
+            - RANK_CLIENT_ENUM
+      - SCOPE_TIMER_BACKUP_FORK_UUID:
+          requires:
+            - f32fc5a249d5cb
+      - min-build:
+          requires:
+            - SCOPE_TIMER_BACKUP_FORK_UUID
+      - MI-AMT-IND:
+          requires:
+            - SCOPE_TIMER_BACKUP_FORK_UUID
+      - broker-v5-scratch-amd64:
+          requires:
+            - MI-AMT-IND
+      - november-1:
+          requires:
+            - broker-v5-scratch-amd64
+      - entryPs
+      - ddw:
+          requires:
+            - entryPs
+      - delta:
+          requires:
+            - ddw
+      - dlgscene:
+          requires:
+            - ddw
+      - merge-array:
+          requires:
+            - dlgscene
+      - feat-5380:
+          requires:
+            - merge-array
+      - run_20120807_0835:
+          requires:
+            - merge-array
+      - CA_SILENT:
+          requires:
+            - run_20120807_0835
+      - qa-3:
+          requires:
+            - CA_SILENT
+      - spanSignin
+      - JSTAT8:
+          requires:
+            - spanSignin
+      - dp-old:
+          requires:
+            - JSTAT8
+      - summer069275:
+          requires:
+            - JSTAT8
+      - Bridge_71125:
+          requires:
+            - summer069275
+      - ruby3-cov:
+          requires:
+            - Bridge_71125
+      - OSCAR:
+          requires:
+            - Bridge_71125
+      - rt803:
+          requires:
+            - OSCAR
+      - CORE-294:
+          requires:
+            - rt803
+      - walkParserDialog:
+          requires:
+            - rt803
+      - back4:
+          requires:
+            - walkParserDialog
+      - STAGE_STG:
+          requires:
+            - back4
+      - node20170817:
+          requires:
+            - back4
+      - commit_loop:
+          requires:
+            - node20170817
+      - dec4-ship:
+          requires:
+            - commit_loop
+      - article_spawn_next:
+          requires:
+            - commit_loop
+      - TypedHandlerKernel:
+          requires:
+            - article_spawn_next
+      - helios-plus:
+          requires:
+            - TypedHandlerKernel
+      - DEL_P
+      - alice-ship:
+          requires:
+            - DEL_P
+      - TRL-STAT-FTR:
+          requires:
+            - DEL_P
+      - RUN_QA:
+          requires:
+            - TRL-STAT-FTR
+      - shim_sys:
+          requires:
+            - TRL-STAT-FTR
+      - update-metrics-redirect:
+          requires:
+            - shim_sys
+      - BB75:
+          requires:
+            - shim_sys
+      - INFRA-501:
+          requires:
+            - BB75
+      - ginagina:
+          requires:
+            - BB75
+      - verify-quick-integration-tests:
+          requires:
+            - ginagina
